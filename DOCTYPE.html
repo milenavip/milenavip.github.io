@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comunidade VIP Milena Rezende</title>
+    
+    <!-- Meta Pixel Code -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '2601994483520661');
+      fbq('track', 'PageView');
+    </script>
+    <!-- End Meta Pixel Code -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --neon-pink: #ff007f;
+            --dark-bg: #0a0a0a;
+            --dark-card: #141414;
+        }
+        body {
+            background-color: var(--dark-bg);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+        .neon-pink-text { color: var(--neon-pink); }
+        .bg-neon-pink { background-color: var(--neon-pink); }
+        .neon-glow {
+            text-shadow: 0 0 10px rgba(255, 0, 127, 0.7), 0 0 20px rgba(255, 0, 127, 0.5);
+        }
+        .neon-border {
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.3);
+        }
+        .neon-button {
+            background-color: var(--neon-pink);
+            color: white;
+            font-weight: 800;
+            padding: 1.25rem 2rem;
+            border-radius: 9999px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-align: center;
+        }
+        .neon-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(255, 0, 127, 0.8);
+        }
+        .glass-card {
+            background: var(--dark-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+        /* Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Notification */
+        #notification {
+            transform: translateX(-120%);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        #notification.show { transform: translateX(0); }
+        /* FAQ */
+        .faq-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, opacity 0.3s;
+            opacity: 0;
+        }
+        .faq-item.active .faq-content {
+            max-height: 200px;
+            opacity: 1;
+        }
+        .faq-item.active .faq-icon { transform: rotate(180deg); }
+        /* Exit Intent */
+        #exit-popup { display: none; }
+    </style>
+</head>
+<body class="selection:bg-[#ff007f] selection:text-white">
+
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2601994483520661&ev=PageView&noscript=1"/></noscript>
+
+    <!-- Notificação Popup -->
+    <div id="notification" class="fixed bottom-6 left-6 z-50 glass-card flex items-center gap-3 py-3 px-4 shadow-2xl border-[#ff007f]/30">
+        <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+        <p class="text-sm font-medium">
+            <span class="neon-pink-text">✔</span> <span id="notif-text">Lucas acabou de entrar na comunidade VIP</span>
+        </p>
+    </div>
+
+    <!-- Floating Button -->
+    <a href="https://t.me/Mili_vipbot" target="_blank" onclick="track('Botão Flutuante')" class="fixed bottom-6 right-6 z-[90] neon-button px-6 py-4 text-sm sm:text-base shadow-[0_0_30px_rgba(255,0,127,0.6)]">
+        <i data-lucide="users" class="w-5 h-5"></i> ENTRAR NA COMUNIDADE VIP
+    </a>
+
+    <!-- Exit Intent Popup -->
+    <div id="exit-popup" class="fixed inset-0 z-[100] flex items-center justify-center px-6 bg-black/90 backdrop-blur-md">
+        <div class="glass-card max-w-md w-full text-center p-10 border-[#ff007f] neon-border">
+            <h2 class="text-3xl font-black mb-4">⚠️ Antes de sair...</h2>
+            <p class="text-lg opacity-80 mb-8">A comunidade VIP ainda está liberando acessos hoje. Não perca sua vaga exclusiva!</p>
+            <a href="https://t.me/Mili_vipbot" target="_blank" onclick="track('Popup de Saída')" class="neon-button w-full">QUERO MINHA VAGA AGORA</a>
+            <button onclick="closeExitPopup()" class="mt-6 text-sm opacity-40 hover:opacity-100 transition-opacity">Continuar navegando</button>
+        </div>
+    </div>
+
+    <!-- 1 — HERO SECTION -->
+    <header class="relative overflow-hidden pt-20 pb-32 px-6">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-6xl opacity-20 pointer-events-none">
+            <div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#ff007f]/20 to-transparent blur-3xl"></div>
+        </div>
+        
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <div class="flex flex-wrap justify-center gap-4 mb-8">
+                <span class="flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest">
+                    <i data-lucide="flame" class="w-4 h-4 text-orange-500"></i> Conteúdo Exclusivo
+                </span>
+                <span class="flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest">
+                    <i data-lucide="lock" class="w-4 h-4 neon-pink-text"></i> Comunidade Privada
+                </span>
+                <span class="flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest">
+                    <i data-lucide="zap" class="w-4 h-4 text-yellow-400"></i> Acesso Imediato
+                </span>
+            </div>
+
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-black mb-6 leading-tight">
+                Entre Agora na <span class="neon-pink-text neon-glow">Comunidade VIP</span> Privada da Milena Rezende
+            </h1>
+            
+            <p class="text-lg md:text-xl opacity-80 mb-10 max-w-2xl mx-auto leading-relaxed">
+                Tenha acesso a conteúdos exclusivos liberados apenas para membros. Conteúdos liberados somente dentro da área VIP, com acesso imediato após entrar.
+            </p>
+
+            <div class="flex flex-col items-center gap-4">
+                <a href="#pacotes" onclick="track('Botão Hero Principal')" class="neon-button w-full sm:w-auto py-5 sm:py-4 text-lg">
+                    QUERO ENTRAR NA COMUNIDADE VIP
+                </a>
+                <p class="text-sm opacity-50 flex items-center gap-2">
+                    <i data-lucide="check-circle-2" class="w-4 h-4 text-green-500"></i> Acesso liberado automaticamente após a confirmação do pagamento.
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2 — BENEFÍCIOS PRINCIPAIS -->
+    <section class="py-24 px-6 bg-[#141414]/50 reveal">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="glass-card flex items-start gap-4 hover:-translate-y-1 transition-transform">
+                    <div class="bg-[#ff007f]/20 p-2 rounded-lg"><i data-lucide="check-circle-2" class="w-6 h-6 neon-pink-text"></i></div>
+                    <p class="font-medium">Conteúdos exclusivos liberados apenas para membros</p>
+                </div>
+                <div class="glass-card flex items-start gap-4 hover:-translate-y-1 transition-transform">
+                    <div class="bg-[#ff007f]/20 p-2 rounded-lg"><i data-lucide="check-circle-2" class="w-6 h-6 neon-pink-text"></i></div>
+                    <p class="font-medium">Packs especiais disponíveis apenas na área privada</p>
+                </div>
+                <div class="glass-card flex items-start gap-4 hover:-translate-y-1 transition-transform">
+                    <div class="bg-[#ff007f]/20 p-2 rounded-lg"><i data-lucide="check-circle-2" class="w-6 h-6 neon-pink-text"></i></div>
+                    <p class="font-medium">Atualizações frequentes</p>
+                </div>
+                <div class="glass-card flex items-start gap-4 hover:-translate-y-1 transition-transform">
+                    <div class="bg-[#ff007f]/20 p-2 rounded-lg"><i data-lucide="check-circle-2" class="w-6 h-6 neon-pink-text"></i></div>
+                    <p class="font-medium">Conteúdos que não são publicados em redes sociais</p>
+                </div>
+                <div class="glass-card flex items-start gap-4 hover:-translate-y-1 transition-transform">
+                    <div class="bg-[#ff007f]/20 p-2 rounded-lg"><i data-lucide="check-circle-2" class="w-6 h-6 neon-pink-text"></i></div>
+                    <p class="font-medium">Acesso imediato após entrar</p>
+                </div>
+                <div class="glass-card flex items-start gap-4 hover:-translate-y-1 transition-transform">
+                    <div class="bg-[#ff007f]/20 p-2 rounded-lg"><i data-lucide="check-circle-2" class="w-6 h-6 neon-pink-text"></i></div>
+                    <p class="font-medium">Área VIP privada</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3 — SOBRE A COMUNIDADE -->
+    <section class="py-24 px-6 reveal">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div class="relative">
+                <div class="aspect-[4/5] rounded-3xl overflow-hidden border border-white/10 neon-border">
+                    <img src="https://i.ibb.co/8DF8qxpf/wmremove-transformed.jpg" alt="Milena Rezende VIP" class="w-full h-full object-cover hover:scale-105 transition-all duration-700">
+                </div>
+                <div class="absolute -bottom-6 -right-6 glass-card p-6 border-[#ff007f]/30">
+                    <p class="text-3xl font-black neon-pink-text">VIP</p>
+                    <p class="text-xs uppercase tracking-widest opacity-50">Privado</p>
+                </div>
+            </div>
+            
+            <div>
+                <h2 class="text-3xl md:text-5xl font-black mb-8 leading-tight">
+                    A Comunidade VIP Milena Rezende foi criada para quem quer <span class="neon-pink-text">exclusividade</span>.
+                </h2>
+                <p class="text-lg opacity-70 mb-8 leading-relaxed">
+                    Tenha acesso a conteúdos exclusivos e materiais que não são compartilhados publicamente. Dentro da comunidade você encontra:
+                </p>
+                <ul class="space-y-4 mb-10">
+                    <li class="flex items-center gap-3 text-lg font-semibold"><div class="w-2 h-2 rounded-full bg-neon-pink"></div> Packs exclusivos</li>
+                    <li class="flex items-center gap-3 text-lg font-semibold"><div class="w-2 h-2 rounded-full bg-neon-pink"></div> Conteúdos privados</li>
+                    <li class="flex items-center gap-3 text-lg font-semibold"><div class="w-2 h-2 rounded-full bg-neon-pink"></div> Atualizações frequentes</li>
+                </ul>
+                <p class="neon-pink-text font-bold text-xl italic">Tudo liberado imediatamente após entrar.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4 — PACOTES DISPONÍVEIS -->
+    <section id="pacotes" class="py-24 px-6 bg-[#141414]/30 reveal">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-black text-center mb-16">Escolha seu <span class="neon-pink-text">Acesso</span></h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- PACK INICIANTE -->
+                <div class="glass-card flex flex-col items-center text-center relative overflow-hidden group hover:scale-[1.02] transition-transform">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-white/20"></div>
+                    <h3 class="text-2xl font-black mb-2">PACK INICIANTE</h3>
+                    <p class="neon-pink-text font-bold mb-6">15 Fotos + 15 Vídeos</p>
+                    <p class="opacity-60 mb-8">Conteúdos exclusivos liberados imediatamente.</p>
+                    <div class="mt-auto w-full">
+                        <p class="text-xs uppercase opacity-50 mb-1">Por apenas</p>
+                        <p class="text-4xl font-black mb-8">R$ 19,90</p>
+                        <a href="https://syncpagamentoseguro.com/checkout/a13a79f1-82b0-402b-9990-5bcd470fe56e+a111fd2a-2168-488d-b35d-cde5541d36db" target="_blank" onclick="track('Pack Iniciante')" class="neon-button w-full bg-white text-black hover:bg-[#ff007f] hover:text-white py-5 block">LIBERAR ACESSO</a>
+                    </div>
+                </div>
+
+                <!-- PACK PREMIUM -->
+                <div class="glass-card flex flex-col items-center text-center relative overflow-hidden border-[#ff007f]/50 bg-[#ff007f]/5 hover:scale-[1.02] transition-transform">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-neon-pink"></div>
+                    <div class="bg-neon-pink text-white text-[10px] font-bold px-3 py-1 rounded-full absolute top-4 right-4 uppercase tracking-widest">Mais Vendido</div>
+                    <h3 class="text-2xl font-black mb-2">PACK PREMIUM</h3>
+                    <p class="neon-pink-text font-bold mb-6">40 Fotos + 35 Vídeos</p>
+                    <p class="opacity-60 mb-8">Inclui bônus especial e acesso prioritário.</p>
+                    <div class="mt-auto w-full">
+                        <p class="text-xs uppercase opacity-50 mb-1">Por apenas</p>
+                        <p class="text-4xl font-black mb-8">R$ 27,90</p>
+                        <a href="https://syncpagamentoseguro.com/checkout/a13abc00-0334-42e4-ab4c-295583498550+a13abc8d-3e9b-4d2d-9bee-fec8f0943e6d" target="_blank" onclick="track('Pack Premium')" class="neon-button w-full py-5 block">QUERO ESSE PACOTE</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5 — GRUPO VIP TELEGRAM -->
+    <section class="py-24 px-6 reveal">
+        <div class="max-w-4xl mx-auto glass-card border-blue-500/30 bg-blue-500/5">
+            <div class="flex flex-col md:flex-row gap-12 items-center">
+                <div class="flex-1">
+                    <h2 class="text-3xl font-black mb-6 flex items-center gap-3">
+                        <span class="bg-blue-500 p-2 rounded-xl"><i data-lucide="users" class="w-6 h-6"></i></span> Grupo VIP Telegram
+                    </h2>
+                    <p class="opacity-70 mb-8 leading-relaxed">
+                        O acesso é feito através de um <strong>BOT PRIVADO DO TELEGRAM</strong> que libera automaticamente o acesso após o pagamento. Dentro do bot você pode escolher:
+                    </p>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center gap-2 text-sm font-medium"><i data-lucide="check-circle-2" class="w-4 h-4 text-blue-500"></i> Acesso mensal ao grupo VIP</li>
+                        <li class="flex items-center gap-2 text-sm font-medium"><i data-lucide="check-circle-2" class="w-4 h-4 text-blue-500"></i> Acesso por 3 meses</li>
+                        <li class="flex items-center gap-2 text-sm font-medium"><i data-lucide="check-circle-2" class="w-4 h-4 text-blue-500"></i> Acesso vitalício</li>
+                        <li class="flex items-center gap-2 text-sm font-medium"><i data-lucide="check-circle-2" class="w-4 h-4 text-blue-500"></i> Chamada de vídeo privada</li>
+                    </ul>
+                    <p class="text-blue-400 font-bold text-sm italic">O bot libera o acesso automaticamente após confirmação do pagamento.</p>
+                </div>
+                <div class="w-full md:w-72">
+                    <a href="https://t.me/Mili_vipbot" target="_blank" onclick="track('Entrar no Grupo VIP')" class="w-full py-6 rounded-xl bg-blue-500 text-white font-black hover:bg-blue-600 transition-all uppercase tracking-widest text-center block shadow-[0_0_20px_rgba(59,130,246,0.5)]">ENTRAR NO GRUPO VIP</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6 — ACESSO COMPLETO PROMOCIONAL -->
+    <section class="py-24 px-6 reveal">
+        <div class="max-w-4xl mx-auto relative">
+            <div class="absolute inset-0 bg-[#ff007f]/20 blur-[100px] rounded-full"></div>
+            <div class="relative glass-card border-[#ff007f] bg-black/60 p-12 text-center">
+                <h2 class="text-4xl md:text-6xl font-black mb-4">Acesso Completo <span class="neon-pink-text">Para Sempre</span></h2>
+                <p class="text-xl opacity-70 mb-10">Tenha acesso total à comunidade VIP e todos os conteúdos exclusivos já liberados e futuros.</p>
+                <div class="flex flex-col items-center gap-2 mb-10">
+                    <p class="text-lg line-through opacity-40">De R$ 79,90</p>
+                    <p class="text-xs uppercase tracking-widest neon-pink-text font-bold">Por hoje apenas</p>
+                    <p class="text-6xl md:text-8xl font-black neon-glow">R$ 59,98</p>
+                </div>
+                <button class="neon-button text-xl px-12 py-6">GARANTIR ACESSO COMPLETO</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7 — PROVA SOCIAL -->
+    <section class="py-24 px-6 bg-[#141414]/50 reveal">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <div class="flex justify-center gap-1 mb-4">
+                    <i data-lucide="star" class="w-6 h-6 fill-yellow-400 text-yellow-400"></i>
+                    <i data-lucide="star" class="w-6 h-6 fill-yellow-400 text-yellow-400"></i>
+                    <i data-lucide="star" class="w-6 h-6 fill-yellow-400 text-yellow-400"></i>
+                    <i data-lucide="star" class="w-6 h-6 fill-yellow-400 text-yellow-400"></i>
+                    <i data-lucide="star" class="w-6 h-6 fill-yellow-400 text-yellow-400"></i>
+                </div>
+                <h2 class="text-4xl font-black mb-4">O que os membros dizem</h2>
+                <p class="neon-pink-text font-bold flex items-center justify-center gap-2">
+                    <i data-lucide="users" class="w-5 h-5"></i> Mais de 2.000 acessos liberados nas últimas semanas.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="glass-card">
+                    <div class="flex gap-1 mb-4"><i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i><i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i><i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i><i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i><i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i></div>
+                    <p class="italic opacity-80 mb-4">"Entrei na comunidade e gostei muito dos conteúdos exclusivos."</p>
+                    <p class="font-bold text-sm neon-pink-text">— Rafael M.</p>
+                </div>
+                <div class="glass-card">
+                    <div class="flex gap-1 mb-4"><i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i><i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i><i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i><i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i><i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i></div>
+                    <p class="italic opacity-80 mb-4">"Entrega rápida e acesso imediato."</p>
+                    <p class="font-bold text-sm neon-pink-text">— Lucas P.</p>
+                </div>
+                <div class="glass-card">
+                    <div class="flex gap-1 mb-4"><i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i><i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i><i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i><i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i><i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i></div>
+                    <p class="italic opacity-80 mb-4">"Vale muito a pena pelo preço."</p>
+                    <p class="font-bold text-sm neon-pink-text">— Diego R.</p>
+                </div>
+                <div class="glass-card">
+                    <div class="flex gap-1 mb-4"><i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i><i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i><i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i><i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i><i data-lucide="star" class="w-3 h-3 fill-yellow-400 text-yellow-400"></i></div>
+                    <p class="italic opacity-80 mb-4">"Comunidade exclusiva e fácil de acessar."</p>
+                    <p class="font-bold text-sm neon-pink-text">— André S.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8 — ESCASSEZ & 9 — CONTADOR DE VAGAS -->
+    <section class="py-24 px-6 reveal">
+        <div class="max-w-3xl mx-auto text-center">
+            <div class="inline-flex items-center gap-2 bg-red-500/20 text-red-500 px-4 py-2 rounded-full text-sm font-bold mb-8 animate-pulse">
+                <i data-lucide="alert-triangle" class="w-4 h-4"></i> Vagas Limitadas
+            </div>
+            <h2 class="text-4xl font-black mb-6">⚠️ Atenção: As vagas são limitadas</h2>
+            <p class="text-lg opacity-70 mb-12">Para manter a exclusividade da comunidade, o número de acessos disponíveis é limitado. Quando o limite é atingido, novas entradas podem ser pausadas temporariamente.</p>
+            <div class="glass-card p-8 border-red-500/30">
+                <div class="flex justify-between items-end mb-4">
+                    <p class="text-xl font-black flex items-center gap-2"><i data-lucide="flame" class="text-orange-500"></i> <span id="progress-text">73</span>% das vagas preenchidas</p>
+                    <p class="text-sm font-bold neon-pink-text uppercase"><span id="vacancies-text">27</span> acessos restantes</p>
+                </div>
+                <div class="w-full h-4 bg-white/5 rounded-full overflow-hidden">
+                    <div id="progress-bar" class="h-full bg-gradient-to-r from-[#ff007f] to-red-500 transition-all duration-1000" style="width: 73%"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10 — CONTADOR REGRESSIVO -->
+    <section class="py-24 px-6 bg-[#ff007f]/5 border-y border-[#ff007f]/20 reveal">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-2xl md:text-3xl font-black mb-10 flex items-center justify-center gap-3">
+                <i data-lucide="clock" class="w-8 h-8 neon-pink-text"></i> Oferta promocional por tempo limitado
+            </h2>
+            <div class="flex gap-4 justify-center items-center font-mono text-2xl md:text-4xl font-bold">
+                <div class="flex flex-col items-center"><span id="timer-h" class="glass-card p-3 neon-glow">02</span><span class="text-[10px] uppercase mt-1 opacity-50">Horas</span></div>
+                <span class="mb-6">:</span>
+                <div class="flex flex-col items-center"><span id="timer-m" class="glass-card p-3 neon-glow">18</span><span class="text-[10px] uppercase mt-1 opacity-50">Minutos</span></div>
+                <span class="mb-6">:</span>
+                <div class="flex flex-col items-center"><span id="timer-s" class="glass-card p-3 neon-glow">45</span><span class="text-[10px] uppercase mt-1 opacity-50">Segundos</span></div>
+                <span class="mb-6">:</span>
+                <div class="flex flex-col items-center"><span id="timer-ms" class="glass-card p-3 neon-glow neon-pink-text">10</span><span class="text-[10px] uppercase mt-1 opacity-50">ms</span></div>
+            </div>
+            <p class="mt-10 text-sm opacity-50">Quando o tempo acabar, o valor promocional pode ser alterado sem aviso prévio.</p>
+        </div>
+    </section>
+
+    <!-- 12 — COMO FUNCIONA -->
+    <section class="py-24 px-6 reveal">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl font-black text-center mb-16">Como funciona o <span class="neon-pink-text">Acesso</span></h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div class="text-center group">
+                    <div class="w-16 h-16 bg-neon-pink rounded-2xl flex items-center justify-center text-3xl font-black mx-auto mb-6 group-hover:rotate-12 transition-transform">1</div>
+                    <h3 class="text-xl font-bold mb-4">Escolha o pacote</h3>
+                    <p class="opacity-60">Selecione o plano que melhor atende suas necessidades.</p>
+                </div>
+                <div class="text-center group">
+                    <div class="w-16 h-16 bg-neon-pink rounded-2xl flex items-center justify-center text-3xl font-black mx-auto mb-6 group-hover:rotate-12 transition-transform">2</div>
+                    <h3 class="text-xl font-bold mb-4">Finalize o pagamento</h3>
+                    <p class="opacity-60">Processo 100% seguro e criptografado.</p>
+                </div>
+                <div class="text-center group">
+                    <div class="w-16 h-16 bg-neon-pink rounded-2xl flex items-center justify-center text-3xl font-black mx-auto mb-6 group-hover:rotate-12 transition-transform">3</div>
+                    <h3 class="text-xl font-bold mb-4">Receba acesso imediato</h3>
+                    <p class="opacity-60">Acesso liberado automaticamente em menos de 1 minuto.</p>
+                </div>
+            </div>
+            <div class="mt-16 bg-white/5 p-6 rounded-2xl border border-white/10 text-center max-w-lg mx-auto">
+                <p class="font-bold flex items-center justify-center gap-2"><i data-lucide="zap" class="text-yellow-400"></i> Tempo médio de liberação: <span class="neon-pink-text">menos de 1 minuto</span>.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 13 — FAQ -->
+    <section class="py-24 px-6 bg-[#141414]/30 reveal">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-4xl font-black text-center mb-16">Dúvidas <span class="neon-pink-text">Frequentes</span></h2>
+            <div class="space-y-2">
+                <div class="faq-item border-b border-white/10">
+                    <button class="w-full py-6 flex justify-between items-center text-left hover:neon-pink-text transition-colors" onclick="toggleFAQ(this)">
+                        <span class="text-lg font-semibold">O acesso é imediato?</span>
+                        <i data-lucide="chevron-down" class="faq-icon transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content"><p class="pb-6 opacity-70 leading-relaxed">Sim, o acesso é liberado automaticamente após a confirmação do pagamento. Você não precisa esperar nada.</p></div>
+                </div>
+                <div class="faq-item border-b border-white/10">
+                    <button class="w-full py-6 flex justify-between items-center text-left hover:neon-pink-text transition-colors" onclick="toggleFAQ(this)">
+                        <span class="text-lg font-semibold">Posso acessar pelo celular?</span>
+                        <i data-lucide="chevron-down" class="faq-icon transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content"><p class="pb-6 opacity-70 leading-relaxed">Sim, a plataforma é totalmente responsiva e funciona perfeitamente em qualquer smartphone, tablet ou computador.</p></div>
+                </div>
+                <div class="faq-item border-b border-white/10">
+                    <button class="w-full py-6 flex justify-between items-center text-left hover:neon-pink-text transition-colors" onclick="toggleFAQ(this)">
+                        <span class="text-lg font-semibold">Como recebo o acesso?</span>
+                        <i data-lucide="chevron-down" class="faq-icon transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content"><p class="pb-6 opacity-70 leading-relaxed">Após finalizar o pagamento, você receberá os dados de acesso instantaneamente no seu e-mail e na tela de confirmação.</p></div>
+                </div>
+                <div class="faq-item border-b border-white/10">
+                    <button class="w-full py-6 flex justify-between items-center text-left hover:neon-pink-text transition-colors" onclick="toggleFAQ(this)">
+                        <span class="text-lg font-semibold">O acesso é privado?</span>
+                        <i data-lucide="chevron-down" class="faq-icon transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content"><p class="pb-6 opacity-70 leading-relaxed">Sim, a comunidade é 100% privada e apenas membros ativos têm acesso aos conteúdos exclusivos.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 14 — CTA FINAL -->
+    <section class="py-32 px-6 relative overflow-hidden reveal">
+        <div class="absolute inset-0 bg-[#ff007f]/10 pointer-events-none"></div>
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <h2 class="text-4xl md:text-6xl font-black mb-6">Garanta Agora Seu Acesso à <span class="neon-pink-text">Comunidade VIP</span></h2>
+            <p class="text-xl opacity-70 mb-12 max-w-2xl mx-auto">As vagas restantes podem acabar a qualquer momento. Não perca a oportunidade de entrar pelo valor promocional.</p>
+            <a href="#pacotes" onclick="track('CTA Final')" class="neon-button text-xl px-16 py-8 flex items-center justify-center gap-3 mx-auto max-w-xs">QUERO ACESSAR AGORA <i data-lucide="arrow-right"></i></a>
+        </div>
+    </section>
+
+    <!-- 15 — RODAPÉ -->
+    <footer class="py-12 px-6 border-t border-white/10 bg-black">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+                <div class="flex flex-col items-center text-center gap-2"><i data-lucide="shield-check" class="w-8 h-8 text-green-500"></i><p class="text-[10px] font-bold uppercase tracking-widest">Pagamento Seguro</p></div>
+                <div class="flex flex-col items-center text-center gap-2"><i data-lucide="zap" class="w-8 h-8 text-yellow-400"></i><p class="text-[10px] font-bold uppercase tracking-widest">Acesso Imediato</p></div>
+                <div class="flex flex-col items-center text-center gap-2"><i data-lucide="smartphone" class="w-8 h-8 text-blue-400"></i><p class="text-[10px] font-bold uppercase tracking-widest">Acesso pelo Celular</p></div>
+                <div class="flex flex-col items-center text-center gap-2"><i data-lucide="lock" class="w-8 h-8 neon-pink-text"></i><p class="text-[10px] font-bold uppercase tracking-widest">Comunidade Privada</p></div>
+            </div>
+            <div class="text-center pt-8 border-t border-white/5 opacity-40 text-sm">
+                <p>&copy; 2026 Comunidade VIP Milena Rezende. Todos os direitos reservados.</p>
+                <p class="mt-2">Esta página não tem vínculo com o Facebook ou Instagram.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Inicializar ícones
+        lucide.createIcons();
+
+        // Rastreamento Meta Pixel
+        function track(label) {
+            if (typeof fbq !== 'undefined') {
+                fbq('track', 'InitiateCheckout', { content_name: label });
+            }
+        }
+
+        // FAQ Toggle
+        function toggleFAQ(button) {
+            const item = button.parentElement;
+            item.classList.toggle('active');
+        }
+
+        // Countdown Timer (Auto-restart)
+        let timeLeft = { h: 2, m: 18, s: 45, ms: 10 };
+        function updateTimer() {
+            timeLeft.ms -= 1;
+            if (timeLeft.ms < 0) { timeLeft.ms = 99; timeLeft.s -= 1; }
+            if (timeLeft.s < 0) { timeLeft.s = 59; timeLeft.m -= 1; }
+            if (timeLeft.m < 0) { timeLeft.m = 59; timeLeft.h -= 1; }
+            
+            if (timeLeft.h < 0) { timeLeft = { h: 2, m: 18, s: 45, ms: 10 }; }
+            
+            document.getElementById('timer-h').innerText = String(timeLeft.h).padStart(2, '0');
+            document.getElementById('timer-m').innerText = String(timeLeft.m).padStart(2, '0');
+            document.getElementById('timer-s').innerText = String(timeLeft.s).padStart(2, '0');
+            document.getElementById('timer-ms').innerText = String(timeLeft.ms).padStart(2, '0');
+        }
+        setInterval(updateTimer, 10);
+
+        // Notificações Sociais
+        const notifications = [
+            "Lucas acabou de entrar na comunidade VIP",
+            "Rafael liberou acesso Premium agora",
+            "Diego acabou de comprar o Pack Premium",
+            "Gabriel entrou no grupo VIP",
+            "Mariana acabou de entrar na área VIP",
+            "Felipe garantiu acesso vitalício"
+        ];
+        let notifIndex = 0;
+        const notifEl = document.getElementById('notification');
+        const notifText = document.getElementById('notif-text');
+
+        function showNotification() {
+            notifText.innerText = notifications[notifIndex];
+            notifEl.classList.add('show');
+            setTimeout(() => {
+                notifEl.classList.remove('show');
+                notifIndex = (notifIndex + 1) % notifications.length;
+                setTimeout(showNotification, Math.floor(Math.random() * 10000) + 15000);
+            }, 5000);
+        }
+        setTimeout(showNotification, 2000);
+
+        // Escassez Dinâmica
+        let vacancies = 27;
+        let progress = 73;
+        function updateScarcity() {
+            if (vacancies > 3) {
+                vacancies -= 1;
+                progress += 0.5;
+                document.getElementById('vacancies-text').innerText = vacancies;
+                document.getElementById('progress-text').innerText = Math.round(progress);
+                document.getElementById('progress-bar').style.width = progress + '%';
+            }
+        }
+        setInterval(updateScarcity, 45000);
+
+        // Exit Intent Popup
+        document.addEventListener('mouseleave', (e) => {
+            if (e.clientY <= 0 && !localStorage.getItem('exit_shown')) {
+                document.getElementById('exit-popup').style.display = 'flex';
+                localStorage.setItem('exit_shown', 'true');
+            }
+        });
+        function closeExitPopup() {
+            document.getElementById('exit-popup').style.display = 'none';
+        }
+
+        // Scroll Animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
